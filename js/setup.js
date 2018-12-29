@@ -199,5 +199,3 @@ var setPointer = function () {
 };
 
 setPointer();
-
-
