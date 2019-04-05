@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  // Начинаем 5 задание!
   // функция перемещение окна с персонажами
   var imageHandler = document.querySelector('.upload');
 
@@ -27,10 +26,8 @@
         y: moveEvt.clientY
       };
 
-      // вызов из setup.js
       window.setup.setupWrapper.style.top = (window.setup.setupWrapper.offsetTop - continueCoords.y) + 'px';
       window.setup.setupWrapper.style.left = (window.setup.setupWrapper.offsetLeft - continueCoords.x) + 'px';
-      //
     };
 
     var imageUpHandler = function (upEvt) {
