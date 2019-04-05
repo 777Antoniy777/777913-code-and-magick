@@ -17,7 +17,7 @@
   var wizardEyes = setupWrapper.querySelector('.wizard-eyes');
   var wizardFireball = setupWrapper.querySelector('.setup-fireball-wrap');
   var imgStar = document.querySelector('.setup-artifacts-cell img');
-  var artifactsCeilShop = document.querySelector('.setup-artifacts-shop .setup-artifacts-cell');
+  // var artifactsCeilShop = document.querySelector('.setup-artifacts-shop .setup-artifacts-cell');
   var artifactsCeils = document.querySelectorAll('.setup-artifacts div');
 
   // добавление свойства cursor:pointer
