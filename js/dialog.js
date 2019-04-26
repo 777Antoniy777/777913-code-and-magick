@@ -2,6 +2,7 @@
 (function () {
   // функция перемещение окна с персонажами
   var imageHandler = document.querySelector('.upload');
+  var body = document.querySelector('body');
 
   imageHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -26,8 +27,30 @@
         y: moveEvt.clientY
       };
 
-      window.setup.setupWrapper.style.top = (window.setup.setupWrapper.offsetTop - continueCoords.y) + 'px';
-      window.setup.setupWrapper.style.left = (window.setup.setupWrapper.offsetLeft - continueCoords.x) + 'px';
+      var Coord = {
+        isMinLeft: window.coords.getCoords(window.setup.setupWrapper).minLeft < window.coords.getCoords(body).minLeft,
+        isMaxLeft: window.coords.getCoords(window.setup.setupWrapper).maxLeft > window.coords.getCoords(body).maxLeft,
+        isMinTop: window.coords.getCoords(window.setup.setupWrapper).minTop < window.coords.getCoords(body).minTop,
+        isMaxTop: window.coords.getCoords(window.setup.setupWrapper).maxTop > window.coords.getCoords(body).maxTop
+      };
+      console.log(window.coords.getCoords(window.setup.setupWrapper).maxLeft, window.coords.getCoords(body).maxLeft);
+
+      if (Coord.isMinLeft) {
+        window.setup.setupWrapper.style.left = 0 + '%';
+      } else if (Coord.isMinTop) {
+        window.setup.setupWrapper.style.top = 0 + '%';
+      } else if (Coord.isMaxLeft) {
+        // window.setup.setupWrapper.style.right = 100 + '%';
+        // window.setup.setupWrapper.style.left = 100 + '%';
+        window.setup.setupWrapper.style.right = '';
+        window.setup.setupWrapper.style.left = '';
+      } else {
+        window.setup.setupWrapper.style.top = (window.setup.setupWrapper.offsetTop - continueCoords.y) + 'px';
+        window.setup.setupWrapper.style.left = (window.setup.setupWrapper.offsetLeft - continueCoords.x) + 'px';
+      }
+
+      // window.setup.setupWrapper.style.top = (window.setup.setupWrapper.offsetTop - continueCoords.y) + 'px';
+      // window.setup.setupWrapper.style.left = (window.setup.setupWrapper.offsetLeft - continueCoords.x) + 'px';
     };
 
     var imageUpHandler = function (upEvt) {

@@ -181,20 +181,30 @@
   </div>
 </template>
 
+<template id="message-error" >
+  <div class="setup-error">
+    <p class="setup-discription">Текст ошибки</p>
+  </div>
+</template>
+
 <script>
   var fireballSize = 22;
-  var getFireballSpeed = function(left) {
-    return left ? 5 : 2;
-  }
   var wizardSpeed = 3;
   var wizardWidth = 70;
-  var getWizardHeight = function() {
+
+  var getFireballSpeed = function (left) {
+    return left ? 5 : 2;
+  };
+
+  var getWizardHeight = function () {
     return 1.337 * wizardWidth;
   };
-  var getWizardX = function(width) {
+
+  var getWizardX = function (width) {
     return width / 2 - wizardWidth / 2;
   };
-  var getWizardY = function(height) {
+
+  var getWizardY = function (height) {
     return height / 3 - getWizardHeight();
   };
 
@@ -202,11 +212,13 @@
   getWizardY(300);
 </script>
 <script src="js/open-close.js"></script>
+<script src="js/backend.js"></script>
 <script src="js/coords.js"></script>
 <script src="js/main.js"></script>
 <script src="js/stat.js"></script>
 <script src="js/wizards.js"></script>
 <script src="js/setup.js"></script>
+<script src="js/item.js"></script>
 <script src="js/dialog.js"></script>
 <script src="js/validity.js"></script>
 <script src="js/game.js"></script>

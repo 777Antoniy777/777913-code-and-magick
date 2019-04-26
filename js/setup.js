@@ -16,9 +16,6 @@
   var wizardCoat = setupWrapper.querySelector('.wizard-coat');
   var wizardEyes = setupWrapper.querySelector('.wizard-eyes');
   var wizardFireball = setupWrapper.querySelector('.setup-fireball-wrap');
-  var imgStar = document.querySelector('.setup-artifacts-cell img');
-  // var artifactsCeilShop = document.querySelector('.setup-artifacts-shop .setup-artifacts-cell');
-  var artifactsCeils = document.querySelectorAll('.setup-artifacts div');
 
   // добавление свойства cursor:pointer
   wizardCoat.style.cursor = 'pointer';
@@ -108,83 +105,28 @@
 
   setRandomColor();
 
-  // функция drag&drop для предмета инвентаря
-  imgStar.addEventListener('mousedown', function (evt) {
+  // по серверу доделай
+  // var successFormHandler = function () {
+  //   main.appendChild(successTemplate);
+  //   successWrapper.style.display = 'flex';
+  //   window.preview.body.classList.remove('modal-open');
+  //   document.addEventListener('keydown', function (evt) {
+  //     window.openClose.isEscEvent(evt, successFormClose);
+  //   });
+  // };
 
-    var ceil = document.querySelectorAll('.setup-artifacts div');
+  // var errorFormHandler = function () {
+  //   main.appendChild(errorTemplate);
+  //   errorWrapper.style.display = 'flex';
+  //   document.addEventListener('keydown', function (evt) {
+  //     window.openClose.isEscEvent(evt, errorFormClose);
+  //   });
+  // };
 
-    evt.preventDefault();
-
-    var isDragged = false;
-
-    imgStar.style.position = 'absolute';
-    imgStar.style.zIndex = 1000;
-
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
-
-    var imgMoveHandler = function (moveEvt) {
-      moveEvt.preventDefault();
-      isDragged = true;
-
-      var continueCoords = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
-
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
-      imgStar.style.top = (imgStar.offsetTop - continueCoords.y) + 'px';
-      imgStar.style.left = (imgStar.offsetLeft - continueCoords.x) + 'px';
-    };
-
-    var imgUpHadler = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', imgMoveHandler);
-      document.removeEventListener('mouseup', imgUpHadler);
-
-      if (isDragged) {
-        var preventDefaultClickHandler = function (evt) {
-          evt.preventDefault();
-          imgStar.removeEventListener('click', preventDefaultClickHandler);
-
-          for (var i = 0; i < artifactsCeils.length; i++) {
-            var Coord = {
-              isMinLeft: startCoords.x > window.coords.getCoords(artifactsCeils[i]).minLeft,
-              isMaxLeft: startCoords.x < window.coords.getCoords(artifactsCeils[i]).maxLeft,
-              isMinTop: startCoords.y > window.coords.getCoords(artifactsCeils[i]).minTop,
-              isMaxTop: startCoords.y < window.coords.getCoords(artifactsCeils[i]).maxTop
-            };
-
-            if (Coord.isMinLeft && Coord.isMaxLeft && Coord.isMinTop && Coord.isMaxTop) {
-              artifactsCeils[i].appendChild(imgStar);
-              imgStar.style.position = 'static';
-
-              // imgStar.style.top = (-window.coords.getCoords(artifactsCeils[i]).minTop) + 'px';
-              // imgStar.style.left = (-window.coords.getCoords(artifactsCeils[i]).minLeft) + 'px';
-            }
-            // else if (i === 0) {
-            //   artifactsCeilShop.appendChild(imgStar);
-            //   imgStar.style.position = 'static';
-            // } else {
-            //   artifactsCeils[i-1].appendChild(imgStar);
-            //   imgStar.style.position = 'static';
-            // }
-          }
-        };
-        imgStar.addEventListener('click', preventDefaultClickHandler);
-      }
-    };
-
-    document.addEventListener('mousemove', imgMoveHandler);
-    document.addEventListener('mouseup', imgUpHadler);
-  });
+  // form.addEventListener('submit', function (evt) {
+  //   window.backend.save(new FormData(form), successFormHandler, errorFormHandler);
+  //   evt.preventDefault();
+  // });
 
   // глобальный вызов
   window.setup = {

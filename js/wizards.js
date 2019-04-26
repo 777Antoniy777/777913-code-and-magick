@@ -3,29 +3,7 @@
   // константы
   var WIZARDS_COUNT = 4;
 
-  // временные моковые данные (имена, фамилии, цвета плащей, цвета глаз и цвета файрболов)
-  var PERSON_NAME = [
-    'Иван',
-    'Хуан Себастьян',
-    'Мария',
-    'Кристоф',
-    'Виктор',
-    'Юлия',
-    'Люпита',
-    'Вашингтон'
-  ];
-
-  var PERSON_SURNAME = [
-    'да Марья',
-    'Верон',
-    'Мирабелла',
-    'Вальц',
-    'Онопко',
-    'Топольницкая',
-    'Нионго',
-    'Ирвинг'
-  ];
-
+  // данные (имена, фамилии, цвета плащей, цвета глаз и цвета файрболов)
   var COAT_COLOR = [
     'rgb(101, 137, 164)',
     'rgb(241, 43, 107)',
@@ -51,40 +29,44 @@
     '#e6e848'
   ];
 
-  var template = document.querySelector('#similar-wizard-template');
+  var templateSimilar = document.querySelector('#similar-wizard-template');
   var setupSimilarList = document.querySelector('.setup-similar-list');
+  var templateError = document.querySelector('#message-error').content;
+  var templateErrorWrapper = templateError.querySelector('.setup-error');
+  var templateErrorDiscription = templateError.querySelector('.setup-discription');
+  templateErrorWrapper.style.width = 50 + '%';
+  templateErrorWrapper.style.height = 50 + '%';
+  templateErrorWrapper.style.position = 'absolute';
+  templateErrorWrapper.style.left = 50 + '%';
+  templateErrorWrapper.style.top = 50 + '%';
+  templateErrorWrapper.style.zIndex = 10;
+  templateErrorWrapper.style.backgroundColor = 'green';
+  templateErrorWrapper.style.transform = 'translate(' + '-' + 50 + '%,' + '-' + 50 + '%)';
+  // перенеси в dialog.js
+  var body = document.querySelector('body');
 
-  var createWizards = function () {
-    var wizards = [];
-
+  // функция отрисовки волшебников в меню выбора
+  var onLoad = function (data) {
     for (var i = 0; i < WIZARDS_COUNT; i++) {
-      var newWizard = {
-        name: window.main.getRandomElement(PERSON_NAME),
-        surname: window.main.getRandomElement(PERSON_SURNAME),
-        coat: window.main.getRandomElement(COAT_COLOR),
-        eyes: window.main.getRandomElement(EYES_COLOR)
-      };
-      wizards.push(newWizard);
-    }
-    return wizards;
-  };
+      var objIndex = window.main.getRandomElement(data);
+      var setupSimilarItem = templateSimilar.content.querySelector('.setup-similar-item').cloneNode(true);
 
-  var WIZARDS = createWizards();
-
-  // Функция отрисовки волшебников в меню выбора
-  var copyWizards = function (arrayWizards) {
-    for (var i = 0; i < arrayWizards.length; i++) {
-      var setupSimilarItem = template.content.querySelector('.setup-similar-item').cloneNode(true);
-
-      setupSimilarItem.querySelector('.setup-similar-label').textContent = arrayWizards[i].name + ' ' + arrayWizards[i].surname;
-      setupSimilarItem.querySelector('.wizard-coat').style.fill = arrayWizards[i].coat;
-      setupSimilarItem.querySelector('.wizard-eyes').style.fill = arrayWizards[i].eyes;
+      setupSimilarItem.querySelector('.setup-similar-label').textContent = objIndex.name;
+      setupSimilarItem.querySelector('.wizard-coat').style.fill = objIndex.colorCoat;
+      setupSimilarItem.querySelector('.wizard-eyes').style.fill = objIndex.colorEyes;
 
       setupSimilarList.appendChild(setupSimilarItem);
     }
   };
 
-  copyWizards(WIZARDS);
+  var onError = function (error) {
+    // console.error(error);
+    body.appendChild(templateError);
+    templateErrorDiscription.textContent = error;
+  };
+
+  // вызов функции отрисовки волшебников и показа ошибок
+  window.backend.load(onLoad, onError);
 
   // глобальный вызов
   window.wizards = {

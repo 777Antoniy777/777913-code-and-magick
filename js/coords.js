@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   // Функция получения координат с прокруткой
-  function getCoords (elem) { // кроме IE8-
+  var getCoords = function (elem) { // кроме IE8-
     var rect = elem.getBoundingClientRect();
 
     return {
@@ -11,7 +11,8 @@
       maxTop: rect.top + rect.height + pageYOffset
     };
 
-  }
+  };
+
   // глобальный вызов
   window.coords = {
     // функции
