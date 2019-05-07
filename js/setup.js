@@ -105,28 +105,29 @@
 
   setRandomColor();
 
-  // по серверу доделай
-  // var successFormHandler = function () {
-  //   main.appendChild(successTemplate);
-  //   successWrapper.style.display = 'flex';
-  //   window.preview.body.classList.remove('modal-open');
-  //   document.addEventListener('keydown', function (evt) {
-  //     window.openClose.isEscEvent(evt, successFormClose);
-  //   });
-  // };
+  // функции для отправки данных на сервер
+  // функция успешной отправки данных
+  var onload = function (data) {
+    window.wizards.templateErrorWrapper.classList.remove('hidden');
+    setupWrapper.classList.add('hidden');
+    window.wizards.body.appendChild(window.wizards.templateError);
+    window.wizards.templateErrorDiscription.textContent = 'Ваши данные успешно отправлены!';
+  };
 
-  // var errorFormHandler = function () {
-  //   main.appendChild(errorTemplate);
-  //   errorWrapper.style.display = 'flex';
-  //   document.addEventListener('keydown', function (evt) {
-  //     window.openClose.isEscEvent(evt, errorFormClose);
-  //   });
-  // };
+  // функция показа ошибки в шаблоне
+  var onError = function (error) {
+    window.wizards.templateErrorWrapper.classList.remove('hidden');
+    setupWrapper.classList.add('hidden');
+    window.wizards.body.appendChild(window.wizards.templateError);
+    window.wizards.templateErrorDiscription.textContent = 'Упс! Что-то пошло не так! Повторите позже';
+  };
 
-  // form.addEventListener('submit', function (evt) {
-  //   window.backend.save(new FormData(form), successFormHandler, errorFormHandler);
-  //   evt.preventDefault();
-  // });
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+
+    // вызов функции отправки данных на сервер
+    window.backend.save(new FormData(form), onload, onError);
+  });
 
   // глобальный вызов
   window.setup = {

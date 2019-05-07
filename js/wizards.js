@@ -29,21 +29,31 @@
     '#e6e848'
   ];
 
+  var body = document.querySelector('body');
   var templateSimilar = document.querySelector('#similar-wizard-template');
   var setupSimilarList = document.querySelector('.setup-similar-list');
-  var templateError = document.querySelector('#message-error').content;
+  var templateError = document.querySelector('#template-message').content;
   var templateErrorWrapper = templateError.querySelector('.setup-error');
   var templateErrorDiscription = templateError.querySelector('.setup-discription');
-  templateErrorWrapper.style.width = 50 + '%';
-  templateErrorWrapper.style.height = 50 + '%';
-  templateErrorWrapper.style.position = 'absolute';
+
+  // стили на окно с ошибкой
+  templateErrorWrapper.style.width = 700 + 'px';
+  templateErrorWrapper.style.height = 300 + 'px';
+  templateErrorWrapper.style.position = 'fixed';
   templateErrorWrapper.style.left = 50 + '%';
   templateErrorWrapper.style.top = 50 + '%';
   templateErrorWrapper.style.zIndex = 10;
-  templateErrorWrapper.style.backgroundColor = 'green';
-  templateErrorWrapper.style.transform = 'translate(' + '-' + 50 + '%,' + '-' + 50 + '%)';
-  // перенеси в dialog.js
-  var body = document.querySelector('body');
+  templateErrorWrapper.style.backgroundColor = 'red';
+  templateErrorWrapper.style.transform = 'translate(-50%, -50%)';
+  templateErrorWrapper.style.boxShadow = '15px 15px rgba(0, 0, 0, 0.8)';
+  templateErrorWrapper.style.padding = 50 + 'px';
+  templateErrorDiscription.style.width = 500 + 'px';
+  templateErrorDiscription.style.textAlign = 'center';
+  templateErrorDiscription.style.textTransform = 'uppercase';
+  templateErrorDiscription.style.position = 'absolute';
+  templateErrorDiscription.style.left = 50 + '%';
+  templateErrorDiscription.style.top = 50 + '%';
+  templateErrorDiscription.style.transform = 'translate(-50%, -50%)';
 
   // функция отрисовки волшебников в меню выбора
   var onLoad = function (data) {
@@ -59,8 +69,8 @@
     }
   };
 
+  // функция показа ошибки в шаблоне
   var onError = function (error) {
-    // console.error(error);
     body.appendChild(templateError);
     templateErrorDiscription.textContent = error;
   };
@@ -68,11 +78,40 @@
   // вызов функции отрисовки волшебников и показа ошибок
   window.backend.load(onLoad, onError);
 
+  // обработчики на скрытие попаса с сообщением
+  var openMessage = function () {
+
+    // обработчик на click
+    var isClickEvent = function () {
+      templateErrorWrapper.classList.add('hidden');
+    };
+
+    window.addEventListener('click', isClickEvent);
+
+    // обработчик на ESC
+    var ESCbuttonClickHandler = function (evt) {
+      window.openClose.isEscEvent(evt, closeMessage);
+    };
+
+    var closeMessage = function () {
+      templateErrorWrapper.classList.add('hidden');
+      document.removeEventListener('keydown', ESCbuttonClickHandler);
+    };
+
+    window.addEventListener('keydown', ESCbuttonClickHandler);
+  };
+
+  openMessage();
+
   // глобальный вызов
   window.wizards = {
     // переменные
     COAT_COLOR: COAT_COLOR,
     EYES_COLOR: EYES_COLOR,
-    FIREBALL_COLOR: FIREBALL_COLOR
+    FIREBALL_COLOR: FIREBALL_COLOR,
+    body: body,
+    templateError: templateError,
+    templateErrorWrapper: templateErrorWrapper,
+    templateErrorDiscription: templateErrorDiscription
   };
 })();

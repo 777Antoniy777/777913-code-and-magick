@@ -2,7 +2,6 @@
 (function () {
   // функция перемещение окна с персонажами
   var imageHandler = document.querySelector('.upload');
-  var body = document.querySelector('body');
 
   imageHandler.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -28,12 +27,12 @@
       };
 
       var Coord = {
-        isMinLeft: window.coords.getCoords(window.setup.setupWrapper).minLeft < window.coords.getCoords(body).minLeft,
-        isMaxLeft: window.coords.getCoords(window.setup.setupWrapper).maxLeft > window.coords.getCoords(body).maxLeft,
-        isMinTop: window.coords.getCoords(window.setup.setupWrapper).minTop < window.coords.getCoords(body).minTop,
-        isMaxTop: window.coords.getCoords(window.setup.setupWrapper).maxTop > window.coords.getCoords(body).maxTop
+        isMinLeft: window.coords.getCoords(window.setup.setupWrapper).minLeft < window.coords.getCoords(window.wizards.body).minLeft,
+        isMaxLeft: window.coords.getCoords(window.setup.setupWrapper).maxLeft > window.coords.getCoords(window.wizards.body).maxLeft,
+        isMinTop: window.coords.getCoords(window.setup.setupWrapper).minTop < window.coords.getCoords(window.wizards.body).minTop,
+        isMaxTop: window.coords.getCoords(window.setup.setupWrapper).maxTop > window.coords.getCoords(window.wizards.body).maxTop
       };
-      console.log(window.coords.getCoords(window.setup.setupWrapper).maxLeft, window.coords.getCoords(body).maxLeft);
+      console.log(window.coords.getCoords(window.setup.setupWrapper).maxLeft, window.coords.getCoords(window.wizards.body).maxLeft);
 
       if (Coord.isMinLeft) {
         window.setup.setupWrapper.style.left = 0 + '%';
