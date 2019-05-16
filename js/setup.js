@@ -13,14 +13,7 @@
   form.action = 'https://js.dump.academy/code-and-magick';
   form.name = 'wizard';
 
-  var wizardCoat = setupWrapper.querySelector('.wizard-coat');
-  var wizardEyes = setupWrapper.querySelector('.wizard-eyes');
-  var wizardFireball = setupWrapper.querySelector('.setup-fireball-wrap');
-
   // добавление свойства cursor:pointer
-  wizardCoat.style.cursor = 'pointer';
-  wizardEyes.style.cursor = 'pointer';
-  wizardFireball.style.cursor = 'pointer';
   textInput.style.cursor = 'pointer';
 
   // функция добавление открытия и скрытия окна
@@ -68,42 +61,6 @@
   };
 
   openWindow();
-
-  // функция изменения внешних данных персонажа (цвет плаща, глаз, файрбола)
-  var setRandomColor = function () {
-
-    var indexCoat = 0;
-    wizardCoat.addEventListener('click', function () {
-      if (indexCoat === window.wizards.COAT_COLOR.length - 1) {
-        indexCoat = 0;
-      } else {
-        indexCoat++;
-      }
-      wizardCoat.style.fill = window.wizards.COAT_COLOR[indexCoat];
-    });
-
-    var indexEyes = 0;
-    wizardEyes.addEventListener('click', function () {
-      if (indexEyes === window.wizards.EYES_COLOR.length - 1) {
-        indexEyes = 0;
-      } else {
-        indexEyes++;
-      }
-      wizardEyes.style.fill = window.wizards.EYES_COLOR[indexEyes];
-    });
-
-    var indexFireball = 0;
-    wizardFireball.addEventListener('click', function () {
-      if (indexFireball === window.wizards.FIREBALL_COLOR.length - 1) {
-        indexFireball = 0;
-      } else {
-        indexFireball++;
-      }
-      wizardFireball.style.backgroundColor = window.wizards.FIREBALL_COLOR[indexFireball];
-    });
-  };
-
-  setRandomColor();
 
   // функции для отправки данных на сервер
   // функция успешной отправки данных

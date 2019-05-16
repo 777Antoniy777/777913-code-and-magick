@@ -55,18 +55,42 @@
   templateErrorDiscription.style.top = 50 + '%';
   templateErrorDiscription.style.transform = 'translate(-50%, -50%)';
 
+  var wizardCoat = document.querySelector('.wizard-coat');
+  var wizardEyes = document.querySelector('.wizard-eyes');
+  var wizardFireball = document.querySelector('.setup-fireball-wrap');
+
+  // добавление свойства cursor:pointer
+  wizardCoat.style.cursor = 'pointer';
+  wizardEyes.style.cursor = 'pointer';
+  wizardFireball.style.cursor = 'pointer';
+
+  var removeWizards = function () {
+    var setupSimilarItem = setupSimilarList.querySelectorAll('.setup-similar-item');
+
+    setupSimilarItem.forEach(function (elem, i, arr) {
+      setupSimilarList.removeChild(elem);
+    });
+  };
+
   // функция отрисовки волшебников в меню выбора
-  var onLoad = function (data) {
+  var renderWizards = function (wizards) {
     for (var i = 0; i < WIZARDS_COUNT; i++) {
-      var objIndex = window.main.getRandomElement(data);
       var setupSimilarItem = templateSimilar.content.querySelector('.setup-similar-item').cloneNode(true);
 
-      setupSimilarItem.querySelector('.setup-similar-label').textContent = objIndex.name;
-      setupSimilarItem.querySelector('.wizard-coat').style.fill = objIndex.colorCoat;
-      setupSimilarItem.querySelector('.wizard-eyes').style.fill = objIndex.colorEyes;
+      setupSimilarItem.querySelector('.setup-similar-label').textContent = wizards[i].name;
+      setupSimilarItem.querySelector('.wizard-coat').style.fill = wizards[i].colorCoat;
+      setupSimilarItem.querySelector('.wizard-eyes').style.fill = wizards[i].colorEyes;
 
       setupSimilarList.appendChild(setupSimilarItem);
     }
+  };
+
+  // данные с сервера, записанные в переменную, чтобы не качались заново (dataWizards)
+  var dataWizards = [];
+  var onLoad = function (data) {
+    dataWizards = data;
+    removeWizards();
+    renderWizards(dataWizards);
   };
 
   // функция показа ошибки в шаблоне
@@ -77,6 +101,71 @@
 
   // вызов функции отрисовки волшебников и показа ошибок
   window.backend.load(onLoad, onError);
+
+  // функция изменения внешних данных персонажа (цвет плаща, глаз, файрбола)
+  var setFilterColor = function () {
+    var coatColor;
+    var eyesColor;
+
+    var getRank = function (wizard) {
+      var rank = 0;
+
+      if (wizard.colorCoat === coatColor) {
+        rank += 2;
+      }
+      if (wizard.colorEyes === eyesColor) {
+        rank += 1;
+      }
+
+      return rank;
+    };
+
+    var updateWizards = function () {
+      renderWizards(dataWizards.sort(function (left, right) {
+        return getRank(right) - getRank(left);
+      }));
+    };
+
+    var indexCoat = 0;
+    wizardCoat.addEventListener('click', function () {
+      if (indexCoat === COAT_COLOR.length - 1) {
+        indexCoat = 0;
+      } else {
+        indexCoat++;
+      }
+      this.style.fill = COAT_COLOR[indexCoat];
+      // запоминаем цвет для фильтра
+      coatColor = COAT_COLOR[indexCoat];
+      removeWizards();
+      updateWizards();
+    });
+
+    var indexEyes = 0;
+    wizardEyes.addEventListener('click', function () {
+      if (indexEyes === EYES_COLOR.length - 1) {
+        indexEyes = 0;
+      } else {
+        indexEyes++;
+      }
+      this.style.fill = EYES_COLOR[indexEyes];
+      // запоминаем цвет для фильтра
+      eyesColor = EYES_COLOR[indexEyes];
+      removeWizards();
+      updateWizards();
+    });
+
+    var indexFireball = 0;
+    wizardFireball.addEventListener('click', function () {
+      if (indexFireball === FIREBALL_COLOR.length - 1) {
+        indexFireball = 0;
+      } else {
+        indexFireball++;
+      }
+      this.style.backgroundColor = FIREBALL_COLOR[indexFireball];
+    });
+  };
+
+  setFilterColor();
 
   // обработчики на скрытие попаса с сообщением
   var openMessage = function () {
