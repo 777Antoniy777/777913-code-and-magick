@@ -90,6 +90,8 @@
   window.setup = {
     // переменные
     setupWrapper: setupWrapper,
-    textInput: textInput
+    textInput: textInput,
+
+    openWindow: openWindow
   };
 })();

@@ -64,6 +64,7 @@
   wizardEyes.style.cursor = 'pointer';
   wizardFireball.style.cursor = 'pointer';
 
+  // функция удаления первоначальных волшебников
   var removeWizards = function () {
     var setupSimilarItem = setupSimilarList.querySelectorAll('.setup-similar-item');
 
@@ -74,6 +75,8 @@
 
   // функция отрисовки волшебников в меню выбора
   var renderWizards = function (wizards) {
+    removeWizards();
+
     for (var i = 0; i < WIZARDS_COUNT; i++) {
       var setupSimilarItem = templateSimilar.content.querySelector('.setup-similar-item').cloneNode(true);
 
@@ -89,7 +92,6 @@
   var dataWizards = [];
   var onLoad = function (data) {
     dataWizards = data;
-    removeWizards();
     renderWizards(dataWizards);
   };
 
@@ -136,8 +138,15 @@
       this.style.fill = COAT_COLOR[indexCoat];
       // запоминаем цвет для фильтра
       coatColor = COAT_COLOR[indexCoat];
-      removeWizards();
-      updateWizards();
+
+      // debounce для смены цвета плаща
+      window.debounce(updateWizards);
+
+      // window.debounce(function () {
+      //   // запоминаем цвет для фильтра
+      //   coatColor = COAT_COLOR[indexCoat];
+      //   updateWizards();
+      // });
     });
 
     var indexEyes = 0;
@@ -150,8 +159,9 @@
       this.style.fill = EYES_COLOR[indexEyes];
       // запоминаем цвет для фильтра
       eyesColor = EYES_COLOR[indexEyes];
-      removeWizards();
-      updateWizards();
+
+      // debounce для смены цвета глаз
+      window.debounce(updateWizards);
     });
 
     var indexFireball = 0;

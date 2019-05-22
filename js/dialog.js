@@ -70,5 +70,10 @@
     document.addEventListener('mousemove', imageMoveHandler);
     document.addEventListener('mouseup', imageUpHandler);
   });
+
+  window.dialog = {
+    // переменные
+    imageHandler: imageHandler
+  };
 })();
 
